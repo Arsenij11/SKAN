@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+$backgroung-color : #FFFFFF;
+$box-shadow :  0 0 10px rgba(0,0,0,0.5);
+
+@font-face {
+  font-family: 'Ferry', arial;
+  src: url('./ferry_black.otf') format('opentype');
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#app {
+  width: 100%;
+  height: auto;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  justify-content: space-between;
+  height: 93px;
+  width: 100vw;
+  background-color: $backgroung-color;
+  color: #000000;
+  font-weight: 400;
+}
+
+.logo {
+  width: 141px;
+  height: 141px;
+  margin-left: 4%;
+}
+
+@mixin info_register () {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 14px;
+  align-self: center;
+  justify-self: center;
+}
+
+.info {
+  @include info_register;
+  width: 236px;
+  height: 17px;
+}
+.register {
+  @include info_register;
+  width: 251px;
+  height: 26px;
+  justify-self: flex-end;
+  margin-right: 21%;
+}
+
+@mixin p () {
+  justify-self: center;
+  align-self: center;
+}
+
+.register p:nth-child(1) {
+  width: 146px;
+  height: 17px;
+  opacity: 40%;
+  @include p;
+}
+
+.register p:nth-child(1):hover {
+  cursor: pointer;
+}
+.register p:nth-child(2) {
+  color: #029491;
+  font-size: 26px;
+  opacity: 60%;
+  @include p;
+}
+.register button {
+  width: 65px;
+  height: 26px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  background-color: #7CE3E1;
+}
+.register button:hover {
+  cursor: pointer;
+}
+
+main {
+  width: 100vw;
+  height: auto;
+}
+.servis {
+  height: 620px;
+  //border: 1px solid black;
+  width: 93%;
+  margin: 50px 3.5% 0 3.5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  background-color: $backgroung-color;
+
+}
+.servis p:first-child {
+  line-height: 72px;
+  font-size: 60px;
+  font-weight: 900;
+  text-transform: uppercase;
+  width: 120%;
+  color: #000000;
+  z-index: 1;
+  position: relative;
+  height: 288px;
+  text-align: left;
+}
+.servis p:nth-child(2) {
+  width: 80%;
+  height: 48px;
+  line-height: 24px;
+}
+.servis button {
+  order: 3;
+  height: 59px;
+  width: 50%;
+  border-radius: 5px;
+  background-color: #5970FF;
+  font-weight: 500;
+  color: $backgroung-color;
+  border: none;
+}
+.servis button:hover {
+  cursor: pointer;
+}
+.servis img {
+  grid-row: span 3;
+  height: 620px;
+  width: 70%;
+  z-index: 0;
+  position: relative;
+  justify-self: center;
+}
+.whywe {
+  width: 93%;
+  //border: 1px solid black;
+  margin: 0 3.5% 0 3.5%;
+  height: 349px;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 1fr 1fr 0.2fr;
+  grid-template-rows: 1fr 1fr;
+  background-color: $backgroung-color;
+  //border-radius: 10px;
+}
+
+.whywe_title {
+  grid-column: span 5;
+  text-transform: uppercase;
+  font-family: 'Ferry', arial;
+  font-size: 45px;
+  font-weight: 900;
+}
+.whywe span {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 21px;
+  font-weight: 400;
+  height: 225px;
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
+}
+
+.whywe span img {
+  height: 64px;
+  width: 64px;
+  margin-bottom: 20px;
+  //background-color: #029491;
+  //mix-blend-mode: multiply;
+}
+.whywe span p {
+  margin-left: 5px;
+}
+.strelka {
+  width: 39px;
+  height: 39px;
+  align-self: center;
+}
+.strelka:hover {
+  cursor: pointer;
+}
+.strelka:first-of-type {
+  transform: rotate(180deg);
+}
+
+.chel_sidit {
+  height: 575px;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 50px;
+}
+
+.chel_sidit svg {
+  width: 90%;
+}
+.tarifes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 20% 80%;
+  height: 664px;
+  width: 91%;
+  margin: 50px 4.5% 0 4.5%;
+  letter-spacing: 1px;
+}
+
+
+.tarifes_title {
+  grid-column: span 3;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 45px;
+  width: auto;
+  border: none;
+  line-height: 54px;
+  letter-spacing: 2px;
+  background-color: $backgroung-color;
+}
+
+.tarif  {
+  width: 80%;
+  height: 540px;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+}
+
+
+@mixin tarif_header ($back-color, $color) {
+  display: grid;
+  grid-template-columns: 0.8fr 0.3fr;
+  grid-template-rows: 1fr 1fr;
+  background-color: $back-color;
+  padding: 15px;
+  border-radius: 5px 5px 0 0;
+  color: $color;
+}
+
+.beginner > .header {
+  @include tarif_header(#FFB64F, #000000);
+}
+
+.pro > .header {
+  @include tarif_header(#7CE3E1, #000000);
+}
+.business > .header {
+  @include tarif_header(black, white);
+}
+
+.tarif > .header > span:first-of-type {
+  font-size: 30px;
+  line-height: 36.31px;
+  font-weight: 500;
+}
+.tarif > .header > svg {
+  grid-row: span 2;
+  margin-left: 10px;
+}
+.tarif > .header > span:nth-of-type(2) {
+  width: 110%;
+  height: 22px;
+  //margin-right: 15px;
+}
+.tarif  > .info {
+  display: flex;
+  //grid-template-rows: 1fr 1fr 1fr;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 73%;
+  width: 90%;
+}
+.tarif  > .info > .cost {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 5px 5px 0 10px;
+}
+
+@mixin cost () {
+  display: flex;
+  font-weight: 500;
+}
+
+.tarif  > .info > .cost > span:nth-child(1) {
+  @include cost;
+  font-size: 30px;
+  line-height: 36.31px;
+  margin-bottom: 1%;
+  padding-top: 15px;
+}
+.tarif  > .info > .cost > span:nth-child(2) {
+  @include cost;
+  font-size: 25px;
+  line-height: 30.26px;
+  color: rgb(0, 0, 0, 0.5);
+  text-decoration: line-through;
+  padding-top: 15px;
+}
+.current_tar {
+  color: $backgroung-color;
+  background-color: #3BA5E0;
+  font-size: 12px;
+  height: 24px;
+  text-align: center;
+  border-radius: 10px;
+  width: 100%;
+  margin-left: 16%;
+  margin-right: 15%;
+  padding: 7px 2px 0 2px;
+}
+.credit {
+  grid-column: span 3;
+}
+.tarif_include span {
+  font-size: 20px;
+  font-weight: 500;
+  //margin-bottom: 1%;
+}
+.tarif_include ul {
+  margin-bottom: 2%;
+}
+
+.tarif_include ul li {
+  margin: 1% 0 1% 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.tarif_include ul li p {
+  display: inline-block;
+}
+.tarif_include ul li img{
+  width: 15px;
+  height: 15px;
+  margin-right: 1%;
+}
+
+
+.info button {
+  height: 59px;
+  width: 100%;
+  background-color: #5970FF;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 24.2px;
+  border: none;
+}
+
+.info button:hover {
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 35px;
+  width: 100%;
+  height: 137px;
+  background-color: #029491;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+footer img {
+  width: 141px;
+  height: 141px;
+  margin-left: 3%;
+}
+
+footer .address {
+  font-weight: 400;
+  position: relative;
+  top: 25%;
+  left: 78%;
+  right: 0;
+  text-align: right;
+  font-size: 14px;
+  line-height: 14.52px;
+  color: white;
+}
+
+footer .address p {
+  margin-bottom: 2%;
+}
+
+footer .address p:nth-child(4) {
+  margin-top: 10%;
+  font-size: 12px;
+}

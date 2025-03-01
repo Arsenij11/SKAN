@@ -2,10 +2,19 @@
 
 $backgroung-color : #FFFFFF;
 $box-shadow :  0 0 10px rgba(0,0,0,0.5);
+$label-color: #949494;
+$button : #5970FF;
 
 @font-face {
   font-family: 'Ferry', arial;
-  src: url('./ferry_black.otf') format('opentype');
+  src: url('ferry_black.otf') format('opentype');
+}
+
+@mixin titles_900 () {
+  font-weight: 900;
+  font-family: 'Ferry', arial;
+  text-transform: uppercase;
+  color: black;
 }
 
 
@@ -32,9 +41,10 @@ header {
   background-color: $backgroung-color;
   color: #000000;
   font-weight: 400;
+  margin-bottom: 4%;
 }
 
-.logo {
+header > .logo {
   width: 141px;
   height: 141px;
   margin-left: 4%;
@@ -43,17 +53,35 @@ header {
 @mixin info_register () {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   font-size: 14px;
   align-self: center;
   justify-self: center;
+  align-items: center;
 }
 
-.info {
+header > .info {
   @include info_register;
-  width: 236px;
-  height: 17px;
+  height: 100%;
+  width: 100%;
 }
+
+header > .info p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+header > .info p:hover {
+  cursor: pointer;
+  background-color: #029491;
+  color: white;
+  height: 100%;
+}
+
 .register {
   @include info_register;
   width: 251px;
@@ -113,10 +141,8 @@ main {
 .servis p:first-child {
   line-height: 72px;
   font-size: 60px;
-  font-weight: 900;
-  text-transform: uppercase;
+  @include titles_900;
   width: 120%;
-  color: #000000;
   z-index: 1;
   position: relative;
   height: 288px;
@@ -132,7 +158,7 @@ main {
   height: 59px;
   width: 50%;
   border-radius: 5px;
-  background-color: #5970FF;
+  background-color: $button;
   font-weight: 500;
   color: $backgroung-color;
   border: none;
@@ -225,9 +251,8 @@ main {
 
 
 .tarifes_title {
+  @include titles_900;
   grid-column: span 3;
-  text-transform: uppercase;
-  font-weight: 900;
   font-size: 45px;
   width: auto;
   border: none;
@@ -360,7 +385,7 @@ main {
 .info button {
   height: 59px;
   width: 100%;
-  background-color: #5970FF;
+  background-color: $button;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 1px;
@@ -372,6 +397,512 @@ main {
   cursor: pointer;
 }
 
+
+.auth {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 56.74% 43.26%;
+  grid-template-rows: 1fr;
+  margin: 3.5% 0 0 0;
+}
+.people {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.people > span {
+  @include titles_900;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: 2px;
+  height: 144px;
+  margin-left: 7%;
+  margin-bottom: 1%;
+  width: 65%;
+}
+
+.form {
+  height: 578px;
+  //border: 1px solid black;
+  width: 77.05%;
+  display: flex;
+  flex-direction: column;
+
+}
+.form > svg {
+  position: relative;
+  z-index: 1;
+  left: 7%;
+  top: 4%;
+}
+
+.form > form {
+  display: flex;
+  flex-direction: column;
+  height: 523px;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+  width: 87.73%;
+  align-self: flex-end;
+  position: relative;
+  z-index: 0;
+}
+
+.form > form > div {
+  width: 89.6%;
+  padding: 15px 22px 10px 22px;
+}
+.form > form > div:last-child {
+  width: 72.81%;
+}
+
+.form > form > .login_or_registration {
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin login_register ($color) {
+  margin-right: 5px;
+  color: $color;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  height: 100%;
+  padding-top: 1.5%;
+  border-bottom: 1px solid $color;
+  width: 100%;
+  cursor: pointer;
+}
+.form > form > .login_or_registration > .login {
+  @include login_register(#029491);
+}
+.form > form > .login_or_registration > .registration {
+  @include login_register(#C7C7C7);
+}
+
+.form > form > .fields {
+  height: 174px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > form > .fields > label {
+  margin: 3% 0 3% 0;
+  color: $label-color;
+}
+
+.form > form > .fields > input {
+  width: 100%;
+  height: 43px;
+  background-color: #FFFFFF;
+  border: 1px solid #C7C7C7;
+  border-radius: 5px;
+}
+
+.form > form > .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form > form > .button > button {
+  background-color: $button;
+  width: 100%;
+  height: 59px;
+  color: #FFFFFF;
+  font-weight: 500;
+  border: none;
+  font-size: 22px;
+  letter-spacing: 1px;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.form > form > .button > span {
+  font-size: 14px;
+  color: $button;
+  height: 17px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+.form > form > .oauth {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form > form > .oauth > span:first-of-type {
+  grid-column: span 3;
+  margin-bottom: 3%;
+  font-size: 16px;
+  font-weight: 400;
+  color: $label-color;
+}
+
+.form > form > .oauth > span:not(:first-of-type) {
+  border: 1px solid #5970FF82;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 94.12%;
+  height: 31px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+.search {
+  display: grid;
+  margin-top: 2%;
+  grid-template-rows: 20% 80%;
+  padding: 0 0 0 5%;
+}
+
+.search > .search_field {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 1fr;
+}
+
+
+.search > .search_field > span:first-of-type {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@mixin title ($font, $weight, $line, $space, $transform, $height) {
+  font-size: $font;
+  font-weight: $weight;
+  line-height: $line;
+  letter-spacing: $space;
+  text-transform: $transform;
+  height: $height;
+}
+
+.search > .search_field > span:first-of-type > span:first-of-type {
+  @include title(40px, 900, 48px, 1.2px, uppercase, 96px);
+}
+
+.search > .search_field > span:first-of-type > span:nth-of-type(2) {
+  @include title(20px, 400, 24.2px, 0.4px, none, 48px);
+  padding-top: 10px;
+}
+.search > .search_field > span:nth-of-type(2) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20% 0 20%;
+}
+.search > .search_field > span:nth-of-type(2) > svg:first-of-type {
+  justify-self: flex-end;
+  align-self: flex-end;
+}
+
+.search > .search_field > span:nth-of-type(2) > svg:nth-of-type(2) {
+  align-self: flex-end;
+  justify-self: center;
+}
+
+
+.search > .person_with_docs {
+  margin-top: 5%;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  grid-template-rows: 1fr;
+}
+
+.search > .person_with_docs > form {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  box-shadow: $box-shadow;
+}
+
+.search > .person_with_docs > form > .company_info {
+  display: flex;
+  flex-direction: column;
+  padding: 5% 0 0 5%;
+  font-size: 18px;
+  line-height: 21.78px;
+  letter-spacing: 0.54px;
+}
+
+.search > .person_with_docs > form > .company_info > span {
+  margin-bottom: 3%;
+}
+
+.search > .person_with_docs > form > .company_info > span > input,
+.search > .person_with_docs > form > .company_info > span > select{
+  display: block;
+  margin-top: 4%;
+  border-radius: 5px;
+  border: 1px solid #C7C7C7;
+  height: 43px;
+  width: 55.5%;
+  text-align: center;
+}
+.search > .person_with_docs > form > .company_info > span:nth-of-type(4) > select {
+  display: inline;
+  width: 40.37%;
+  margin-right: 1%;
+}
+
+.search > .person_with_docs > form > .company_info > span:first-of-type {
+  height: 93px;
+}
+
+.search > .person_with_docs > form > .company_info > span:nth-of-type(2) {
+  height: 85px;
+}
+.search > .person_with_docs > form > .company_info > span:nth-of-type(3),
+.search > .person_with_docs > form > .company_info > span:nth-of-type(4) {
+  height: 94px;
+}
+
+.search > .person_with_docs > form > .checkboxes {
+  display: flex;
+  flex-direction: column;
+  padding: 5% 5% 0 0;
+  width: 100%;
+  height: 100%;
+}
+
+.search > .person_with_docs > form > .checkboxes > span:not(:last-of-type) {
+  height: 244px;
+  width: 93.12%;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.search > .person_with_docs > form > .checkboxes > span:not(:last-of-type) > span {
+  margin-bottom: 2%;
+  font-size: 18px;
+  letter-spacing: 0.54px;
+  display: flex;
+  align-items: center;
+}
+.search > .person_with_docs > form > .checkboxes > span:not(:last-of-type) > span > input {
+  margin-right: 2%;
+  width: 18px;
+  height: 18px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.search > .person_with_docs > form > .checkboxes > span:not(:last-of-type) > span > input:checked::after {
+  content: "✔";
+  position: relative;
+  color: #59d43b;
+  background-color: white;
+  font-size: 14px;
+  bottom: 2px;
+  left: 0;
+  border: 1px solid black;
+  padding: 0 3px 1px 3px;
+  font-weight: 900;
+}
+
+.search > .person_with_docs > form > .checkboxes > span:last-of-type {
+  justify-self: flex-end;
+  align-self: flex-end;
+  width: 100%;
+  margin-top: 15%;
+}
+.search > .person_with_docs > form > .checkboxes > span:last-of-type > button {
+  display: block;
+  width: 69.95%;
+  height: 59px;
+  margin-left: 16%;
+  border: none;
+  background-color: $button;
+  border-radius: 5px;
+  text-align: center;
+  color: $backgroung-color;
+  font-size: 22px;
+  margin-bottom: 1%;
+  cursor: pointer;
+}
+.search > .person_with_docs > form > .checkboxes > span:last-of-type > label {
+  margin-left: 16%;
+  color: #949494;
+  font-size: 14px;
+  line-height: 16.94px;
+  letter-spacing: 0.42px;
+}
+.search > .person_with_docs > svg {
+  align-self: center;
+  justify-self: center;
+}
+
+.women {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding-left: 5%;
+}
+
+.women > span:first-of-type {
+  padding: 1% 0 0 1%;
+  width: 70.69%;
+}
+
+
+
+.women > span:first-of-type > span:first-of-type {
+  @include titles_900;
+  font-size: 40px;
+  height: 96px;
+}
+
+.women > span:first-of-type > span:nth-of-type(2) {
+  display: block;
+  margin-top: 1%;
+  font-size: 20px;
+  line-height: 24.2px;
+  letter-spacing: 0.4px;
+  height: 48px;
+}
+
+.women > span:nth-of-type(2) {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+
+.result {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.result > span:first-of-type {
+  @include titles_900;
+  font-size: 30px;
+}
+.result > span:nth-of-type(2) {
+  color: #949494;
+  font-size: 18px;
+}
+.result > table {
+
+}
+.list_of_docs {
+  display: flex;
+  flex-direction: column;
+}
+.list_of_docs > span:first-of-type {
+  @include titles_900;
+  font-size: 30px;
+  letter-spacing: 0.6px;
+  margin-left: 5%;
+}
+.list_of_docs > span:nth-of-type(2) {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 89.03%;
+  margin-left: 5%;
+  margin-top: 2%;
+}
+
+.list_of_docs > span:nth-of-type(2) > span {
+  height: 694px;
+  box-shadow: $box-shadow;
+  margin-right: 2%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+
+.list_of_docs > span:nth-of-type(2) > span > .date_title {
+  font-size: 16px;
+  color: #949494;
+}
+
+.list_of_docs > span:nth-of-type(2) > span > .doc_title {
+  font-size: 26px;
+  line-height: 31.47px;
+  font-weight: 500;
+  margin: 2% 0 1% 0;
+  height: 62px;
+  letter-spacing: 0.52px;
+}
+
+.list_of_docs > span:nth-of-type(2) > span > .category {
+  height: 22px;
+  background-color: #FFB64F;
+  border-radius: 5px;
+  width: 24.49%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 14.52px;
+  letter-spacing: 0.24px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.list_of_docs > span:nth-of-type(2) > span > img {
+  border-radius: 10px;
+  height: 158px;
+  width: 80.64%;
+  margin: 2% 0 2% 0;
+}
+.list_of_docs > span:nth-of-type(2) > span > .content {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 19.36px;
+  letter-spacing: 0.32px;
+}
+
+.list_of_docs > span:nth-of-type(2) > span > .to_read {
+  margin-top: 15%;
+  display: flex;
+  justify-content: space-between;
+}
+.list_of_docs > span:nth-of-type(2) > span > .to_read > button {
+  background-color: #7CE3E1;
+  border: none;
+  height: 46.54px;
+  border-radius: 5px;
+  width: 34.79%;
+  font-size: 16px;
+  cursor: pointer;
+}
+.list_of_docs > span:nth-of-type(2) > span > .to_read > span {
+  font-size: 16px;
+  line-height: 19.36px;
+  color: #949494;
+  align-self: center;
+}
+.list_of_docs > button {
+  height: 59px;
+  margin-top: 2%;
+  width: 21.18%;
+  align-self: center;
+  border: none;
+  background-color: $button;
+  color: white;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26.63px;
+  letter-spacing: 0.88px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 footer {
   margin-top: 35px;
   width: 100%;
@@ -380,6 +911,10 @@ footer {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  //position: fixed;
+  //bottom: 0;
+  //left: 0;
+  //right: 0;
 }
 footer img {
   width: 141px;

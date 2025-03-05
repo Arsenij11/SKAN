@@ -26,20 +26,11 @@ class App extends React.Component {
                    </>
                } />
                <Route path="/search" element={
-                <>
-                    <Header />
-                    <Search />
-                    <Footer />
-                </>
-
-               } />
-               <Route path="/result" element={
-                   <>
-                       <Header />
-                       <Result />
-                       <Footer />
-                   </>
-
+                    <>
+                        <Header />
+                        <Search />
+                        <Footer />
+                    </>
                } />
            </Routes>
         )

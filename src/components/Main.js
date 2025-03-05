@@ -8,6 +8,9 @@ import point from "../icons/d66c8534250053c887c969f508e4c527.png"
 
 class Main extends React.Component {
     render () {
+        const cookie = document.cookie;
+
+
         return (
             <main>
                 <div className="servis">
@@ -18,7 +21,11 @@ class Main extends React.Component {
                     </p>
                     <img src={fat_hipster} alt="какой-то чел"/>
                     <p>Комплексный анализ публикаций, получение данных в формате PDF на электронную почту.</p>
-                    <button>Запросить данные</button>
+                    {cookie.length === 0 ? <button onClick={(event) => window.location.href = 'http://localhost:5000/auth'}>
+                        Войти в личный кабинет
+                    </button> :
+                        <button onClick={(event) => window.location.href = 'http://localhost:5000/search'}>Запросить данные</button>
+                    }
 
                 </div>
                 <div className="whywe">
@@ -111,7 +118,7 @@ class Main extends React.Component {
                                 <span className="cost">
                                     <span>799 ₽</span>
                                     <span>1 200 ₽</span>
-                                    {/*<span className="current_tar">Текущий тариф</span>*/}
+                                    {cookie.length === 0 ? <span></span> : <span className="current_tar">Текущий тариф</span>}
                                     <span className="credit">или 150 ₽/мес. при рассрочке на 24 мес.</span>
                                 </span>
                                 <span className="tarif_include">
@@ -122,7 +129,7 @@ class Main extends React.Component {
                                         <li><img src={point} /><p>Поддержка 24/7</p></li>
                                     </ul>
                                 </span>
-                                <button>Подробнее</button>
+                            {cookie.length === 0 ? <button>Подробнее</button> : <button className="select_tarif">Перейти в личный кабинет</button>}
                         </span>
 
                         </span>

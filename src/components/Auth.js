@@ -1,7 +1,90 @@
 import React from "react";
+import axios from "axios";
 
 class Auth extends React.Component {
+    constructor(props) {
+        if (document.cookie.length > 0) {
+            window.location.href = 'http://localhost:5000';
+        }
+        super(props);
+        this.state = {
+            accessToken: null,
+            expire : null,
+            errorCode : null,
+            message : null
+        }
+    }
+
+    login (event) {
+        event.preventDefault();
+        const login = event.target.login.value;
+        const password = event.target.password.value;
+        let errors = false;
+
+        axios.post('https://gateway.scan-interfax.ru/api/v1/account/login',
+            {
+                login: login,
+                password: password
+            }
+        ).
+        catch(error => {
+            errors = true;
+            this.setState(
+                {
+                    errorCode: error.response.data.errorCode,
+                    message : error.response.data.message
+                }
+            )
+        }).
+        then(response => {
+            if (!errors) {
+                const data = response.data;
+                this.setState({
+                    accessToken: data.accessToken,
+                    expire: data.expire,
+                    errorCode: null,
+                    message: null
+                })
+            }
+        })
+    }
+
     render () {
+        const { accessToken, expire, errorCode, message} = this.state;
+
+
+        if (accessToken && expire) {
+            const setCookie = (name, value, options = {}) => {
+
+                options = {
+                    path: '/',
+                    // при необходимости добавьте другие значения по умолчанию
+                    ...options
+                };
+
+                if (options.expires instanceof Date) {
+                    options.expires = options.expires.toUTCString();
+                }
+
+                let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+                for (let optionKey in options) {
+                    updatedCookie += "; " + optionKey;
+                    let optionValue = options[optionKey];
+                    if (optionValue !== true) {
+                        updatedCookie += "=" + optionValue;
+                    }
+                }
+
+                document.cookie = updatedCookie;
+            }
+
+            setCookie('token', accessToken, {secure: true, 'max-age': expire});
+            window.location.href = 'http://localhost:5000'
+        }
+
+
+
         return (
             <main>
                 <div className="auth">
@@ -121,16 +204,18 @@ class Auth extends React.Component {
                             <path d="M47.6109 1.82669C47.6109 1.82669 47.1774 1.82669 46.3937 1.74332C45.2823 1.67383 44.1671 1.69334 43.0587 1.80168C39.4103 2.13147 35.9305 3.49054 33.0243 5.72075C30.1181 7.95095 27.905 10.9606 26.6424 14.3995C26.2555 15.4353 25.9516 16.5003 25.7336 17.5843C25.5836 18.3514 25.5169 18.7849 25.4919 18.7849C25.4793 18.6797 25.4793 18.5733 25.4919 18.4681C25.4919 18.2597 25.4919 17.9512 25.6003 17.5593C25.7781 16.4577 26.0572 15.3748 26.434 14.3244C27.6599 10.8098 29.8869 7.7304 32.8408 5.46538C35.7946 3.20037 39.3464 1.84862 43.0587 1.57657C44.1694 1.48708 45.2862 1.50383 46.3937 1.62659C46.7855 1.62659 47.0857 1.72664 47.2941 1.75166C47.4027 1.76141 47.5094 1.78668 47.6109 1.82669Z" fill="white"/>
                             <path d="M24.0998 24.1709C24.0789 23.5388 24.1634 22.9076 24.3499 22.3033C24.4327 21.6794 24.6186 21.0736 24.9002 20.5107C24.926 21.1397 24.8443 21.7685 24.6584 22.37C24.5759 22.9977 24.387 23.6067 24.0998 24.1709Z" fill="white"/>
                         </svg>
-                        <form method="POST">
+                        <form onSubmit={this.login.bind(this)}>
                             <div className="login_or_registration">
                                 <span className="login">Войти</span>
                                 <span className="registration">Зарегистрироваться</span>
                              </div>
                             <div className="fields">
                                 <label htmlFor="login">Логин или номер телефона:</label>
-                                <input type="text" name="login"/>
+                                <input type="text" name="login" className={errorCode ? "error" : "not_error"} />
+                                {errorCode ? <p>Введите корректные данные</p> : <span></span>}
                                 <label htmlFor="password">Пароль:</label>
-                                <input type="password" name="password"/>
+                                <input type="password" name="password" className={errorCode ? "error" : "not_error"} />
+                                {errorCode ? <p>Неверный пароль</p> : <span></span>}
                             </div>
                             <div className="button">
                                 <button type="submit">Войти</button>

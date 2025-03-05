@@ -1,8 +1,238 @@
 import React from "react";
 import skillfactory from "../img/6fa410d0c7a9a9ff8e23b4385f036d00.png"
+import strelka from "../icons/strelka.png"
+import loading from "../icons/52462ec6ba8380b43ebf17cb77c2880d.png"
+import news_logo from "../img/i.jpg"
 
 class Result extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            svodka : null,
+            news : null,
+            counter_news : 2,
+            limit_news : false,
+            click : false,
+            ids : null
+        }
+    }
+    componentDidMount() {
+        const histograms = this.props.histograms;
+        console.log(histograms);
+        const svodka = [];
+
+        if (histograms.length > 0){
+            for (let h in histograms[0].data){
+                h = Number(h);
+                const date = new Date(histograms[0].data[h].date);
+                svodka.push(
+                    <tr key={h} style = {{display: h >= 8 ? 'none' : 'flex'}}>
+                        <td>{date.getFullYear()} - {date.getMonth()} - {date.getDate()}</td>
+                        <td>{histograms[0].data[h].value}</td>
+                        <td>{histograms[1].data[h].value}</td>
+                    </tr>
+                );
+            }
+        }
+
+
+        const params = this.props.params;
+        let ids = [];
+        const news = [];
+
+        fetch('https://gateway.scan-interfax.ru/api/v1/objectsearch',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.props.token,
+                },
+                body: params,}).
+        then((response) => {return response.json()}).
+        then((json) => {
+            if (json.items.length > 0) {
+                for (let item of json.items) {
+                    ids.push(item.encodedId);
+                }
+            }
+            if (ids.length > 0) {
+                let povtor;
+                ids = ids.filter(id => {
+                    if (id === povtor) {
+                        povtor = id;
+                        return false;
+                    }
+                    else {
+                        povtor = id;
+                        return true;
+                    }
+                })
+                fetch('https://gateway.scan-interfax.ru/api/v1/documents',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + this.props.token,
+                        },
+                        body: JSON.stringify({"ids" : ids})}).
+                then((response) => {return response.json()}).
+                then((json) => {
+                    for (let j in json) {
+                        j = Number(j);
+                        const ok = json[j].ok;
+                        const date = new Date(ok.issueDate);
+                        const xmlString = ok.content.markup;
+                        const domParser = new DOMParser();
+                        const xmlDOM = domParser.parseFromString(xmlString, "text/xml");
+                        let content = '';
+                        xmlDOM.querySelectorAll('sentence').forEach((el) => {
+                            let textcontent = el.textContent;
+                            const matches = textcontent.match(/(<\/*span\s*[\w\W.]*>)|(<\/*entity\s*.*>)|(<*\/*div\s*.*>)|(\/.*\/)|(<\/*p\s*[\w\W.]*>)|(<\/*h2>)/)
+                            if (matches !== null) {
+                                for (let m of matches) {
+                                    textcontent = textcontent.replaceAll(m, '');
+                                }
+                                content += textcontent;
+                            }
+
+                        });
+                        news.push(
+                            <span key={j} style={{display: j >= this.state.counter_news ? "none" : "flex"}}>
+                                    <span className="date_title">{date.getDate()}.{date.getMonth()}.{date.getFullYear()}
+                                        <u style = {{marginLeft : '3%', cursor : 'pointer'}}
+                                           onClick={(event) => window.location.href = ok.url}>{ok.source.name}
+                                        </u>
+                                    </span>
+                                    <span className="doc_title">{ok.title.text}</span>
+                                    <span className="category">{ok.attributes.isTechNews ? "Технические новости" : ok.attributes.isAnnouncement ? "Анонсы и события" : "Сводка новостей"}</span>
+                                    <img src={news_logo} />
+                                    <span className="content">
+                                        {content.slice(0, 200) + '...'}
+                                    </span>
+                                    <span className="to_read">
+                                        <button onClick={(event) => window.location.href = ok.url}>Читать в источнике</button>
+                                        <span>{ok.attributes.wordCount} слов</span>
+                                    </span>
+                                </span>);
+                    }
+                    const counter = this.state.counter_news;
+                    this.setState({svodka: svodka.length > 0 ? svodka : 0, news : news.length > 0 ? news : 0, limit_news : json.length <= counter, ids : ids});
+                })
+            }
+            else {
+                const counter = this.state.counter_news;
+                this.setState({svodka: svodka.length > 0 ? svodka : 0, news : 0, limit_news : json.length <= counter, ids : ids});
+            }
+        })
+
+
+
+
+
+    }
+
+    to_add_news () {
+        const news = [];
+        fetch('https://gateway.scan-interfax.ru/api/v1/documents',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.props.token,
+                },
+                body: JSON.stringify({"ids" : this.state.ids})}).
+        then((response) => {return response.json()}).
+        then((json) => {
+            for (let j in json) {
+                j = Number(j);
+                const ok = json[j].ok;
+                const date = new Date(ok.issueDate);
+                const xmlString = ok.content.markup;
+                const domParser = new DOMParser();
+                const xmlDOM = domParser.parseFromString(xmlString, "text/xml");
+                let content = '';
+                xmlDOM.querySelectorAll('sentence').forEach((el) => {
+                    let textcontent = el.textContent;
+                    const matches = textcontent.match(/(<\/*span\s*[\w\W.]*>)|(<\/*entity\s*.*>)|(<*\/*div\s*.*>)|(\/.*\/)|(<\/*p\s*[\w\W.]*>)|(<\/*h2>)/)
+                    if (matches !== null) {
+                        for (let m of matches) {
+                            textcontent = textcontent.replaceAll(m, '');
+                        }
+                        content += textcontent;
+                    }
+
+                });
+                news.push(
+                    <span key={j} style={{display: j >= this.state.counter_news ? "none" : "flex"}}>
+                                    <span className="date_title">{date.getDate()}.{date.getMonth()}.{date.getFullYear()}
+                                        <u style = {{marginLeft : '3%', cursor : 'pointer'}}
+                                           onClick={(event) => window.location.href = ok.url}>{ok.source.name}
+                                        </u>
+                                    </span>
+                                    <span className="doc_title">{ok.title.text}</span>
+                                    <span className="category">{ok.attributes.isTechNews ? "Технические новости" : ok.attributes.isAnnouncement ? "Анонсы и события" : "Сводка новостей"}</span>
+                                    <img src={news_logo} />
+                                    <span className="content">
+                                        {content.slice(0, 200) + '...'}
+                                    </span>
+                                    <span className="to_read">
+                                        <button onClick={(event) => window.location.href = ok.url}>Читать в источнике</button>
+                                        <span>{ok.attributes.wordCount} слов</span>
+                                    </span>
+                                </span>);
+            }
+            const counter = this.state.counter_news;
+            this.setState({news : news.length > 0 ? news : 0, limit_news : json.length <= counter, click : false});
+    })
+    }
+    to_refresh_svodka (event) {
+        if (event.target.id === 'left' && event.target.style.cursor === 'pointer') {
+            const histograms = this.props.histograms;
+            histograms[0].data.push(histograms[0].data[0]);
+            histograms[0].data.shift();
+
+            const svodka = [];
+
+            for (let h in histograms[0].data){
+                h = Number(h);
+                const date = new Date(histograms[0].data[h].date);
+                svodka.push(
+                        <tr key={h} style = {{display: h >= 8 ? 'none' : 'flex'}}>
+                            <td>{date.getFullYear()} - {date.getMonth()} - {date.getDate()}</td>
+                            <td>{histograms[0].data[h].value}</td>
+                            <td>{histograms[1].data[h].value}</td>
+                        </tr>
+                );
+            }
+            this.setState({svodka: svodka});
+        }
+        else if (event.target.id === 'right' && event.target.style.cursor === 'pointer') {
+            const histograms = this.props.histograms;
+            histograms[0].data.splice(0, 0, histograms[0].data[histograms[0].data.length - 1]);
+            histograms[0].data.pop();
+
+            const svodka = [];
+
+            for (let h in histograms[0].data){
+                h = Number(h);
+                const date = new Date(histograms[0].data[h].date);
+                svodka.push(
+                    <tr key={h} style = {{display: h >= 8 ? 'none' : 'flex'}}>
+                        <td>{date.getFullYear()} - {date.getMonth()} - {date.getDate()}</td>
+                        <td>{histograms[0].data[h].value}</td>
+                        <td>{histograms[1].data[h].value}</td>
+                    </tr>
+                );
+            }
+            this.setState({svodka: svodka});
+        }
+    }
     render() {
+        let {svodka, news, counter_news, limit_news, click} = this.state;
+        if (click) {
+            this.to_add_news();
+        }
+
         return (
             <main>
                 <div className="women">
@@ -85,46 +315,69 @@ class Result extends React.Component {
                 <div className="result">
                     <span>Общая сводка</span>
                     <span>Найдено 4 221 вариантов</span>
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Период</td>
-                                <td>Всего</td>
-                                <td>Риски</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Период</td>
-                                <td>Всего</td>
-                                <td>Риски</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <span>
+                        <img id = "left"
+                            src={strelka}
+                             onMouseOver={
+                                (event)=>{
+                                    if (svodka === null || svodka === 0 || svodka.length === 8) {
+                                        event.target.style.cursor = 'not-allowed'
+                                    }
+                                    else {
+                                        event.target.style.cursor = 'pointer';
+                                    }
+                                }
+                            }
+                             onClick={this.to_refresh_svodka.bind(this)}
+                        />
+                        {svodka === null ?<span><img src={loading} /></span>:svodka === 0 ? <h1>Сводок по вашему запросу не найдено</h1> :
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Период</td>
+                                    <td>Всего</td>
+                                    <td>Риски</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {svodka}
+                            </tbody>
+                        </table>
+                        }
+                        <img id = "right"
+                            src={strelka}
+                             onMouseOver = {
+                            (event)=>{
+                                if (svodka === null || svodka === 0 || svodka?.length === 8) {
+                                    event.target.style.cursor = 'not-allowed'
+                                }
+                                else {
+                                    event.target.style.cursor = 'pointer';
+                                }
+                            }
+                            }
+                             onClick={this.to_refresh_svodka.bind(this)}
+                        />
+                    </span>
                 </div>
                 <div className="list_of_docs">
                     <span>Список документов</span>
-                    <span>
-                        <span>
-                            <span className="date_title">13.09.2021 <u>Комсомольская правда KP.RU</u></span>
-                            <span className="doc_title">Скиллфэктори - лучшая онлайн-школа для будущих айтишников</span>
-                            <span className="category">Технические новости</span>
-                            <img src={skillfactory} />
-                            <span className="content">
-                                SkillFactory — школа для всех, кто хочет изменить свою карьеру и жизнь. С 2016 года обучение прошли 20 000+ человек из 40 стран с 4 континентов, самому взрослому студенту сейчас 86 лет. Выпускники работают в Сбере, Cisco, Bayer, Nvidia, МТС, Ростелекоме, Mail.ru, Яндексе, Ozon и других топовых компаниях.
-                                <br /><br />
-                                Принципы SkillFactory: акцент на практике, забота о студентах и ориентир на трудоустройство. 80% обучения — выполнение упражнений и реальных проектов. Каждого студента поддерживают менторы, 2 саппорт-линии и комьюнити курса. А карьерный центр помогает составить резюме, подготовиться к собеседованиям и познакомиться с IT-рекрутерами.
+                    {news === null ? <span><img src={loading} /></span> : news === 0 ? <h1>Новостей по вашему запросу не найдено</h1>:
+                            <span>
+                                {news}
                             </span>
-                            <span className="to_read">
-                                <button>Читать в источнике</button>
-                                <span>2543 слов</span>
-                            </span>
-                        </span>
-                        <span>
+                    }
+                        {news === null || news === 0 || limit_news ? <span></span>
+                            :
+                            <button onClick={(event) =>
 
-                        </span>
-                    </span>
-                    <button type="submit">Показать больше</button>
+                                 this.setState({
+                                     counter_news: counter_news + 2,
+                                     click : true
+                                     })
+                                }>Показать больше
+                            </button>
+                        }
                 </div>
             </main>
         )

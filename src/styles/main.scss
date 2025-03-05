@@ -4,6 +4,7 @@ $backgroung-color : #FFFFFF;
 $box-shadow :  0 0 10px rgba(0,0,0,0.5);
 $label-color: #949494;
 $button : #5970FF;
+$margin : 0 6.25% 0.5% 6.25%;
 
 @font-face {
   font-family: 'Ferry', arial;
@@ -53,17 +54,18 @@ header > .logo {
 @mixin info_register () {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   font-size: 14px;
-  align-self: center;
-  justify-self: center;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
 }
+
+
+
 
 header > .info {
   @include info_register;
-  height: 100%;
-  width: 100%;
 }
 
 header > .info p {
@@ -82,47 +84,106 @@ header > .info p:hover {
   height: 100%;
 }
 
-.register {
+header > .register {
   @include info_register;
-  width: 251px;
-  height: 26px;
-  justify-self: flex-end;
-  margin-right: 21%;
 }
 
 @mixin p () {
   justify-self: center;
   align-self: center;
 }
-
-.register p:nth-child(1) {
+header > .register_p {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+header > .register_p p:nth-child(1) {
   width: 146px;
   height: 17px;
   opacity: 40%;
   @include p;
-}
-
-.register p:nth-child(1):hover {
   cursor: pointer;
 }
-.register p:nth-child(2) {
+
+header > .register_p p:nth-child(2) {
   color: #029491;
   font-size: 26px;
   opacity: 60%;
   @include p;
+  margin: 0 2% 0 1.5%;
 }
-.register button {
+header > .register_p button {
   width: 65px;
   height: 26px;
   font-weight: 500;
   border-radius: 5px;
   border: none;
   background-color: #7CE3E1;
-}
-.register button:hover {
   cursor: pointer;
 }
 
+
+header > .register > .login_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(217, 217, 217, 0.3);
+  height: 63px;
+  border-radius: 5px;
+  width: 40%;
+  margin-left: 15%;
+  text-align: right;
+  color: rgb(0, 0, 0, 0.3);
+}
+header > .register > .login_info > img {
+  width: 44px;
+  height: 44px;
+}
+header > .register > .login_info > p {
+  padding-right: 8%;
+}
+@mixin company_limit($color) {
+  font-size: 14px;
+  line-height: 16.94px;
+  font-weight: 700;
+  color: $color;
+  letter-spacing: 0;
+}
+
+
+header > .register > .login_info > p > span:first-of-type {
+  @include company_limit(rgb(0, 0, 0, 1));
+}
+header > .register > .login_info > p > span:nth-of-type(2) {
+  @include company_limit(#8AC540);
+}
+
+header > .register > .profile_info {
+  height: 32px;
+  width: 111px;
+  margin-right: 10%;
+}
+header > .register > .profile_info > span:first-of-type {
+  font-size: 14px;
+}
+header > .register > .profile_info > span:nth-of-type(2) {
+  font-size: 10px;
+  text-align: right;
+  opacity: 40%;
+  margin-left: 30%;
+  cursor: pointer;
+}
+header > .register > .profile_info > img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  align-self: flex-end;
+  float: right;
+}
 main {
   width: 100vw;
   height: auto;
@@ -314,6 +375,8 @@ main {
   flex-direction: column;
   height: 73%;
   width: 90%;
+  align-self: center;
+  justify-self: center;
 }
 .tarif  > .info > .cost {
   display: grid;
@@ -382,7 +445,10 @@ main {
 }
 
 
-.info button {
+
+
+
+.tarifes > .tarif > .info > button {
   height: 59px;
   width: 100%;
   background-color: $button;
@@ -391,10 +457,11 @@ main {
   letter-spacing: 1px;
   line-height: 24.2px;
   border: none;
-}
-
-.info button:hover {
   cursor: pointer;
+  border-radius: 5px;
+}
+.tarifes > .tarif > .info > .select_tarif {
+  background-color: #D2D2D2;
 }
 
 
@@ -419,9 +486,9 @@ main {
   line-height: 48px;
   letter-spacing: 2px;
   height: 144px;
-  margin-left: 7%;
-  margin-bottom: 1%;
-  width: 65%;
+  margin-left: 15%;
+  margin-bottom: 2%;
+  width: 85%;
 }
 
 .form {
@@ -497,19 +564,44 @@ main {
   color: $label-color;
 }
 
-.form > form > .fields > input {
+@mixin login_password ($border) {
   width: 100%;
   height: 43px;
   background-color: #FFFFFF;
-  border: 1px solid #C7C7C7;
+  border: 1px solid $border;
   border-radius: 5px;
+
+  @if ($border == #FF5959) {
+    padding: 2%;
+    margin-bottom: 0.5%;
+  }
+  @else {
+    padding-left: 1.5%;
+  }
 }
 
+
+.form > form > .fields > input {
+  @include login_password(#C7C7C7);
+}
+
+.form > form > .fields > .error {
+  @include login_password(#FF5959);
+}
+
+.form > form > .fields > p {
+  font-size: 14px;
+  text-align: center;
+  line-height: 16.94px;
+  color: #FF5959;
+  height: 17px;
+}
 .form > form > .button {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 5%;
 }
 
 .form > form > .button > button {
@@ -639,7 +731,7 @@ main {
 }
 
 .search > .person_with_docs > form > .company_info > span {
-  margin-bottom: 3%;
+  margin-bottom: 5%;
 }
 
 .search > .person_with_docs > form > .company_info > span > input,
@@ -652,7 +744,7 @@ main {
   width: 55.5%;
   text-align: center;
 }
-.search > .person_with_docs > form > .company_info > span:nth-of-type(4) > select {
+.search > .person_with_docs > form > .company_info > span:nth-of-type(4) > input {
   display: inline;
   width: 40.37%;
   margin-right: 1%;
@@ -662,6 +754,38 @@ main {
   height: 93px;
 }
 
+@mixin star ($color) {
+  font-size: 25px;
+  color: $color;
+}
+
+.search > .person_with_docs > form > .company_info > span:not(:nth-of-type(2)) > label > span {
+  @include star(black);
+}
+
+.search > .person_with_docs > form > .company_info > span:not(:nth-of-type(2)) > .error_data > span {
+  @include star(#FF5959);
+}
+
+@mixin incorrect ($width) {
+  font-size: 14px;
+  color: #FF5959;
+  width: $width;
+  text-align: center;
+}
+
+.search > .person_with_docs > form > .company_info > span:first-of-type > p,
+.search > .person_with_docs > form > .company_info > span:nth-of-type(3) > p {
+  @include incorrect(55.5%);
+}
+
+.search > .person_with_docs > form > .company_info > span:nth-of-type(4) > p {
+  @include incorrect(88%);
+}
+
+.search > .person_with_docs > form > .company_info > span:not(:nth-of-type(2)) > .error_field {
+  border: 1px solid #FF5959;
+}
 .search > .person_with_docs > form > .company_info > span:nth-of-type(2) {
   height: 85px;
 }
@@ -786,18 +910,127 @@ main {
   height: 260px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5%;
 }
 
 .result > span:first-of-type {
   @include titles_900;
   font-size: 30px;
+  margin: $margin;
 }
 .result > span:nth-of-type(2) {
   color: #949494;
   font-size: 18px;
+  margin: $margin;
 }
-.result > table {
+.result > span:nth-of-type(3) {
+  display: grid;
+  grid-template-columns: 6.25% 87.5% 6.25%;
+  margin-top: 2%;
+}
+.result > span:nth-of-type(3) > img {
+  width: 39px;
+  height: 39px;
+  justify-self: center;
+  align-self: center;
+  opacity: 20%;
+  cursor: pointer;
+}
 
+.result > span:nth-of-type(3) > img:first-of-type {
+  transform: rotate(-180deg);
+}
+
+.result > span:nth-of-type(3) > table {
+  display: grid;
+  grid-template-columns: 10% 90%;
+  background-color: #029491;
+  height: 158px;
+  border-radius: 10px;
+  padding: 0.2% 0.3% 0.2% 0.4%;
+  border-right: 2px;
+  position: relative;
+  z-index: 0;
+}
+
+@mixin tr ($back, $color, $font-size, $font-weight) {
+  background-color: $back;
+  color: $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  //padding: 5% 0 5% 0;
+  //border-right: $border;
+  width: 100%;
+  height: 87%;
+  padding-top: 2%;
+  position: relative;
+}
+
+.result > span:nth-of-type(3) > table > thead {
+  width: 100%;
+  height: 100%;
+}
+
+
+.result > span:nth-of-type(3) > table > thead > tr {
+  @include tr(#029491, white, 20px, 500);
+}
+.result > span:nth-of-type(3) > table > thead > tr > td {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.result > span:nth-of-type(3) > table > tbody {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 100%;
+  height: 100%;
+  padding-bottom: 7%;
+  position: relative;
+  z-index: 0;
+}
+.result > span:nth-of-type(3) > table > tbody > span > img {
+  grid-column: span 8;
+  width: 30%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 350%;
+  top: 20%;
+}
+
+
+.result > span:nth-of-type(3) > table > tbody > tr {
+  @include tr(white, black, 18px, 400);
+  border-right: 1px solid #949494;
+  z-index: 1;
+}
+.result > span:nth-of-type(3) > table > tbody > tr > td {
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid #949494;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.result > span:nth-of-type(3) > table > tbody > h1 {
+  width: 800%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.result > span:nth-of-type(3) > table > tbody > tr:last-of-type {
+  @include tr(white, black, 18px, 400);
+  border: none;
 }
 .list_of_docs {
   display: flex;
@@ -862,7 +1095,7 @@ main {
   margin: 2% 0 2% 0;
 }
 .list_of_docs > span:nth-of-type(2) > span > .content {
-  font-size: 16px;
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
   line-height: 19.36px;
   letter-spacing: 0.32px;
@@ -888,6 +1121,11 @@ main {
   color: #949494;
   align-self: center;
 }
+.list_of_docs > h1 {
+  align-self: center;
+  margin-top: 5%;
+}
+
 .list_of_docs > button {
   height: 59px;
   margin-top: 2%;
@@ -904,17 +1142,14 @@ main {
   cursor: pointer;
 }
 footer {
-  margin-top: 35px;
   width: 100%;
   height: 137px;
   background-color: #029491;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  //position: fixed;
-  //bottom: 0;
-  //left: 0;
-  //right: 0;
+  position: relative;
+  bottom: -137px;
 }
 footer img {
   width: 141px;

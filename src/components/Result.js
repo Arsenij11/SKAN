@@ -10,7 +10,7 @@ class Result extends React.Component {
         this.state = {
             svodka : null,
             news : null,
-            counter_news : 2,
+            counter_news : 10,
             limit_news : false,
             click : false,
             ids : null
@@ -372,7 +372,7 @@ class Result extends React.Component {
                             <button onClick={(event) =>
 
                                  this.setState({
-                                     counter_news: counter_news + 2,
+                                     counter_news: counter_news + 10,
                                      click : true
                                      })
                                 }>Показать больше

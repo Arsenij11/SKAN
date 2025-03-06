@@ -3,7 +3,7 @@ import axios from "axios";
 
 class Auth extends React.Component {
     constructor(props) {
-        if (document.cookie.length > 0) {
+        if (document.cookie.match(/(token_for_skan_data)=(.+)/) !== null) {
             window.location.href = 'http://localhost:5000';
         }
         super(props);
@@ -79,7 +79,7 @@ class Auth extends React.Component {
                 document.cookie = updatedCookie;
             }
 
-            setCookie('token', accessToken, {secure: true, 'max-age': expire});
+            setCookie('token_for_skan_data', accessToken, {secure: true, 'max-age': expire});
             window.location.href = 'http://localhost:5000'
         }
 

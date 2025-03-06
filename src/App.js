@@ -7,6 +7,8 @@ import Auth from './components/Auth'
 import Search from './components/Search'
 import Result from './components/Result'
 
+
+
 class App extends React.Component {
     render() {
         return (

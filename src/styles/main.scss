@@ -6,14 +6,13 @@ $label-color: #949494;
 $button : #5970FF;
 $margin : 0 6.25% 0.5% 6.25%;
 
-@font-face {
-  font-family: 'Ferry', arial;
-  src: url('ferry_black.otf') format('opentype');
-}
+//@font-face {
+//  font-family: 'Ferry', arial;
+//  src: url('ferry_black.otf') format('opentype');
+//}
 
 @mixin titles_900 () {
   font-weight: 900;
-  font-family: 'Ferry', arial;
   text-transform: uppercase;
   color: black;
 }

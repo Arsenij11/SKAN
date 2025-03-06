@@ -45,10 +45,8 @@ class Header extends React.Component {
         const cookie = document.cookie;
         const {usedCompanyCount, companyLimit, error} = this.state;
         console.log(cookie);
-        if (cookie.length !== 0) {
-            const token = cookie.match(/(token)=(.+)/);
-            this.token = token[2];
-        }
+        const token = cookie.match(/(token_for_skan_data)=(.+)/);
+        this.token = token ? token[2] : null;
         return (
             <header>
                 <img
@@ -108,7 +106,7 @@ class Header extends React.Component {
 
                                     document.cookie = updatedCookie;
                                 }
-                                setCookie('token', "", {
+                                setCookie('token_for_skan_data', "", {
                                     'max-age': -1
                                 })
                                 window.location.reload();

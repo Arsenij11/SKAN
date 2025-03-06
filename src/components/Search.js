@@ -3,11 +3,11 @@ import Result from "./Result";
 
 class Search extends React.Component {
     constructor(props) {
-        if (document.cookie.length === 0) {
+        if (document.cookie.match(/(token_for_skan_data)=(.+)/) === null) {
             window.location.href = 'http://localhost:5000';
         }
         super(props);
-        this.token = document.cookie.match(/(token)=(.+)/)[2];
+        this.token = document.cookie.match(/(token_for_skan_data)=(.+)/)[2];
         this.state = {
             error_INN : null,
             error_count_of_docs : null,
